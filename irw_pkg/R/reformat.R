@@ -51,6 +51,12 @@
 
 library(tidyverse)
 
+#' @importFrom dplyr as_tibble mutate select across pivot_longer left_join uncount everything pivot_wider 
+#' @importFrom tidyr pivot_wider pivot_longer 
+#' @importFrom stats model.matrix 
+#' @importFrom tidyselect all_of matches 
+#' @export 
+
 reformat = function(data,
                     package = "mirt",
                     groups = NULL,
