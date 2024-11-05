@@ -2,7 +2,18 @@
 #'
 #' @description
 #' Overview ---------------------------------------------------------------------
-#'
+#' The `reformat` function is designed to take a data frame and reformat it into the
+#' format required by various R packages for analysis. The function is designed to
+#' work with the following packages: mirt, lavaan, sem, psych, ltm, mokken, and lme4.
+#' The function can handle a variety of data formats including wide and long formats,
+#' as well as data with covariates, groups, item groups, raters, and more. The function
+#' will automatically identify and convert factor columns to dummy variables if needed.
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
 #' Supported packages:
 #' mirt, lavaan, sem, psych, ltm, mokken, lme4
 #' Manuals ---------------------------------------------------------------------
@@ -22,10 +33,12 @@
 #' if raters: id,  rater, {item, resp}
 #' if rater_covariates: id, rater, rcov1, rcov2, ..., {item, resp}
 #' if process_data: id, {item, {resp, process}} (if pivoting wide each item would have a process column, all of which would come after the respective item resp columns)
-#' if longitudinal: id, {time, {item, resp}} (if sem, lavaan time is combined with item pivoting wide)
+#' if longitudinal: id, {item, {resp, time}} (if sem, lavaan time is combined with item pivoting wide)
 #' if qmatrix: id, item, resp, q1, q2, ...
 #' if item_groups: id,  item_groups, {item, resp}
 #' additional covariates always go last
+#' Parameter specification if user input requests are conflicting
+#' id, item, resp, group, raters, process, longitudinal, item_groups, qmatrix,  covariates, group_covariates, rater_covariates
 
 ##
 ## Arguments -------------------------------------------------------------------
@@ -47,7 +60,7 @@
 # rater_covariates = ,
 # longitudinal = ,
 # facts2dummies = ,
-
+# item_prefix = "item_",
 
 library(tidyverse)
 
@@ -113,7 +126,6 @@ reformat = function(data,
   longitudinal_cols = c()
   
   
-  
   ## convert id to factor
   data = data |> mutate(id = as.factor(id))
   
@@ -148,22 +160,6 @@ reformat = function(data,
   
   missing_cols = check_col_presence(user_cols)
   available_cols = available_cols[-which(available_cols %in% missing_cols)]
-  
-  # for (i in c(
-  #   "covariates",
-  #   "groups",
-  #   "group_covariates",
-  #   "item_groups",
-  #   "process_data",
-  #   "raters",
-  #   "rater_covariates",
-  #   "qmatrix",
-  #   "longitudinal"
-  # )) {
-  #   check_presence(i)
-  # }
-  
-  
   
   
   # Convert 'resp' to numeric if not already
