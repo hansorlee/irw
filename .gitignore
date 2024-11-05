@@ -1,4 +1,7 @@
 *.gz
 *.tar.gz
+<<<<<<< HEAD
 .Rproj.user
+=======
+>>>>>>> 480d79b (Update .gitignore)
 *.DS_Store
