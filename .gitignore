@@ -1,4 +1,7 @@
 *.gz
 *.tar.gz
 .Rproj.user
+<<<<<<< HEAD
 *.DS_Store
+=======
+>>>>>>> 0e4cf9c (plz work k thx luv ya bye)
