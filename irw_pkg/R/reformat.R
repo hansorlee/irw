@@ -13,6 +13,20 @@
 #'  ltm: https://cran.r-project.org/web/packages/ltm/ltm.pdf
 #'  mokken: https://cran.r-project.org/web/packages/mokken/mokken.pdf
 #'  lme4: https://cran.r-project.org/web/packages/lme4/lme4.pdf
+#' as
+#' Parameter ordering where {} are values pivoted wider where applicable
+#' default: id, {item, resp}
+#' if groups: id, group, {item, resp}
+#' if covariates: id, cov1, cov2, ..., {item, resp}
+#' if group_covariates: id, group, gcov1, gcov2, ..., {item, resp}
+#' if raters: id,  rater, {item, resp}
+#' if rater_covariates: id, rater, rcov1, rcov2, ..., {item, resp}
+#' if process_data: id, {item, {resp, process}} (if pivoting wide each item would have a process column, all of which would come after the respective item resp columns)
+#' if longitudinal: id, {time, {item, resp}} (if sem, lavaan time is combined with item pivoting wide)
+#' if qmatrix: id, item, resp, q1, q2, ...
+#' if item_groups: id,  item_groups, {item, resp}
+#' additional covariates always go last
+
 ##
 ## Arguments -------------------------------------------------------------------
 ## mirt: wide format with each item as a column and covdata as a separate dataframe
