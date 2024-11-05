@@ -16,6 +16,8 @@
 #' 
 #' Supported packages:
 #' mirt, lavaan, sem, psych, ltm, mokken, lme4
+#' Note: not all functions within each package are supported. See details.
+#' 
 #' Manuals ---------------------------------------------------------------------
 #'  mirt: https://cran.r-project.org/web/packages/mirt/mirt.pdf
 #'  lavaan: https://cran.r-project.org/web/packages/lavaan/lavaan.pdf
@@ -62,13 +64,14 @@
 # facts2dummies = ,
 # item_prefix = "item_",
 
-library(tidyverse)
 
 #' @importFrom dplyr as_tibble mutate select across pivot_longer left_join uncount everything pivot_wider 
 #' @importFrom tidyr pivot_wider pivot_longer 
 #' @importFrom stats model.matrix 
 #' @importFrom tidyselect all_of matches 
 #' @export 
+#' 
+#' 
 
 reformat = function(data,
                     package = "mirt",
