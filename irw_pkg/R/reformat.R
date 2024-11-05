@@ -1,15 +1,18 @@
-library(tidyverse)
-
-# Overview ---------------------------------------------------------------------
-## Supported packages: mirt, lavaan, sem, psych, ltm, mokken, lme4
-## Manuals ---------------------------------------------------------------------
-## mirt: https://cran.r-project.org/web/packages/mirt/mirt.pdf
-## lavaan: https://cran.r-project.org/web/packages/lavaan/lavaan.pdf
-## sem: https://cran.r-project.org/web/packages/sem/sem.pdf
-## psych: https://cran.r-project.org/web/packages/psych/psych.pdf
-## ltm: https://cran.r-project.org/web/packages/ltm/ltm.pdf
-## mokken: https://cran.r-project.org/web/packages/mokken/mokken.pdf
-## lme4: https://cran.r-project.org/web/packages/lme4/lme4.pdf
+#' @title returns irw dataframes in the format required by the package
+#'
+#' @description 
+#' Overview ---------------------------------------------------------------------
+#' 
+#' Supported packages: 
+#' mirt, lavaan, sem, psych, ltm, mokken, lme4
+#' Manuals ---------------------------------------------------------------------
+#'  mirt: https://cran.r-project.org/web/packages/mirt/mirt.pdf
+#'  lavaan: https://cran.r-project.org/web/packages/lavaan/lavaan.pdf
+#'  sem: https://cran.r-project.org/web/packages/sem/sem.pdf
+#'  psych: https://cran.r-project.org/web/packages/psych/psych.pdf
+#'  ltm: https://cran.r-project.org/web/packages/ltm/ltm.pdf
+#'  mokken: https://cran.r-project.org/web/packages/mokken/mokken.pdf
+#'  lme4: https://cran.r-project.org/web/packages/lme4/lme4.pdf
 ##
 ## Arguments -------------------------------------------------------------------
 ## mirt: wide format with each item as a column and covdata as a separate dataframe
@@ -31,6 +34,8 @@ library(tidyverse)
 # longitudinal = ,
 # facts2dummies = ,
 
+
+library(tidyverse)
 
 reformat = function(data,
                     package = "mirt",
