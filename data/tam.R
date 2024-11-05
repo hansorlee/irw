@@ -39,3 +39,67 @@ L<-list()
 for (i in ii) L[[i]]<-data.frame(id=id,item=names(x)[i],country=x$IDCNTRY,booklet=x$IDBOOK,resp=x[,i])
 df<-data.frame(do.call("rbind",L))
 save(df,file="timss_tam.Rdata")
+
+
+library(TAM)
+# numeracy data
+# item text: https://www.edmeasurementsurveys.com/TAM/Tutorials/data/NumeracyD1.doc
+# data description: https://www.edmeasurementsurveys.com/TAM/Tutorials/3RaschModel.htm
+data("data.numeracy") 
+x <- data.numeracy$scored |> tibble()
+x = x |>
+  mutate(id = 1:nrow(x)) |>
+  pivot_longer(cols = -id,
+               names_to = "item",
+               values_to = "resp")
+
+y <- data.numeracy$raw |> tibble()
+y = y |>
+  mutate(id = 1:nrow(y)) |>
+  pivot_longer(cols = -id,
+               names_to = "item",
+               values_to = "resp_raw")
+
+df = x |>
+  left_join(y, by = c("id", "item")) |>
+  mutate(id = as.factor(id), item = as.factor(item)) 
+
+save(df, file = "numeracy_tam.Rdata")
+
+
+## data janssen for PIS and SCR items, potentially mergeable with data.janssen2
+data("data.janssen")
+x <- data.janssen |> tibble()
+x = x |>
+  mutate(id = 1:nrow(x)) |>
+  pivot_longer(cols = -id,
+               names_to = "item",
+               values_to = "resp") |>
+  mutate(id = as.factor(id), item = as.factor(item))
+
+save(x, file = "janssen_tam.Rdata")
+
+
+
+# mc data from TAM package multiple choice data
+data("data.mc")
+x <- data.mc$scored |> tibble()
+x = x |>
+  mutate(id = 1:nrow(x)) |>
+  pivot_longer(cols = -id,
+               names_to = "item",
+               values_to = "resp")
+
+y <- data.mc$raw |> tibble()
+y = y |>
+  mutate(id = 1:nrow(y)) |>
+  pivot_longer(cols = -id,
+               names_to = "item",
+               values_to = "resp_raw")
+
+df = x |>
+  left_join(y, by = c("id", "item")) |>
+  mutate(id = as.factor(id), item = as.factor(item))
+
+save(df, file = "mc_tam.Rdata")
+
