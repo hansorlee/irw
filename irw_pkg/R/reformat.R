@@ -1,9 +1,9 @@
 #' @title returns irw dataframes in the format required by the package
 #'
-#' @description 
+#' @description
 #' Overview ---------------------------------------------------------------------
-#' 
-#' Supported packages: 
+#'
+#' Supported packages:
 #' mirt, lavaan, sem, psych, ltm, mokken, lme4
 #' Manuals ---------------------------------------------------------------------
 #'  mirt: https://cran.r-project.org/web/packages/mirt/mirt.pdf
@@ -19,7 +19,7 @@
 ## mixedmirt: has data and covdata as a separate data.frame
 ## lavaan: very wide format with each item, date, group, etc. as a separate column
 ## sem: similar to lavaan, but only one "group" column which is a factor
-## psych: wide format with each item as a column for 'fa'. 
+## psych: wide format with each item as a column for 'fa'.
 ## ltm: wide format with each item as a column
 ## mokken: wide format with each item as a column
 ## lme4: long format with each item as a row
@@ -55,7 +55,11 @@ reformat = function(data,
   data = as_tibble(data)
   # Define supported packages
   package_options = c("mirt", "lavaan", "sem", "psych", "ltm", "mokken", "lme4")
-  return_obj_options = c("tibble", "data.frame", "data.matrix", "matrix", "model.matrix")
+  return_obj_options = c("tibble",
+                         "data.frame",
+                         "data.matrix",
+                         "matrix",
+                         "model.matrix")
   required_cols = c("id", "item", "resp")
   
   if (!package %in% package_options) {
@@ -94,12 +98,15 @@ reformat = function(data,
   data = data |> mutate(id = as.factor(id))
   
   ## check if any of the parameters are not NULL and have character values, if so, convert to lower case and check to make sure they are in the data
-  check_col_presence = function(x, cols_list= colnames(data)) {
+  check_col_presence = function(x, cols_list = colnames(data)) {
     if (!is.null(x) & is.character(x)) {
       x = tolower(x)
       if (!all(x %in% cols_list)) {
         missing = setdiff(x, cols_list)
-        warning("Columns specified must be in the data. The following are missing and will be dropped: ", paste(missing, collapse = ", "))
+        warning(
+          "Columns specified must be in the data. The following are missing and will be dropped: ",
+          paste(missing, collapse = ", ")
+        )
         
       }
       
@@ -180,7 +187,6 @@ reformat = function(data,
   
   # Automatically identify covariate columns if covariates = TRUE
   if (!is.null(covariates) & is.character(covariates)) {
-    
     used_columns = c(used_columns, covariates)
   } else if (isTRUE(covariates)) {
     covariate_cols = grep("cov_|age|gender|income|education",
@@ -191,7 +197,7 @@ reformat = function(data,
     } else {
       warning("No covariate columns found.")
     }
-  } 
+  }
   
   
   
@@ -233,7 +239,9 @@ reformat = function(data,
   
   # Automatically identify item group columns if item_groups = TRUE
   if (isTRUE(item_groups) | !is.null(item_groups)) {
-    item_group_cols = grep("item_group|item_grouping|item_group_id", colnames(data), value = TRUE)
+    item_group_cols = grep("item_group|item_grouping|item_group_id",
+                           colnames(data),
+                           value = TRUE)
     if (length(item_group_cols) > 0) {
       data = data |> mutate(item_group = data[[item_group_cols[1]]])
       used_columns = c(used_columns, item_group_cols[1])
@@ -242,7 +250,9 @@ reformat = function(data,
   
   # Automatically identify group covariate columns if group_covariates = TRUE
   if (isTRUE(group_covariates) | !is.null(group_covariates)) {
-    group_cov_cols = grep("group_cov|group_covariate|group_covariate_id", colnames(data), value = TRUE)
+    group_cov_cols = grep("group_cov|group_covariate|group_covariate_id",
+                          colnames(data),
+                          value = TRUE)
     if (length(group_cov_cols) > 0) {
       data = data |> mutate(group_covariate = data[[group_cov_cols[1]]])
       used_columns = c(used_columns, group_cov_cols[1])
@@ -312,11 +322,10 @@ reformat = function(data,
   } else if (return_obj == "matrix") {
     return(as.matrix(formatted_data))
   } else if (return_obj == "model.matrix") {
-    return(model.matrix(~ . - 1, data = formatted_data))
+    return(model.matrix( ~ . - 1, data = formatted_data))
   } else {
     stop(
       "Invalid return_obj specified. Choose from 'tibble', 'data.frame', 'matrix', or 'model.matrix'."
     )
   }
 }
-
