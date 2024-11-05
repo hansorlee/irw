@@ -7,7 +7,7 @@
 #'
 #' The order of operations is: make replacements,
 #' remove initial spaces and punctuation, apply `tolower()`, and add numeric suffixes
-#' to resolve any duplicated names.
+#' to resolve any duplicated names. 
 #'
 #' @param string A character vector of names to clean.
 #' @param replace A named character vector where the name is replaced by the
