@@ -1,0 +1,39 @@
+name: Add Issue to Project and Update Status
+
+on:
+  issues:
+    types:
+      - labeled
+      - assigned
+
+jobs:
+  process-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if Issue Has "data" Label and an Assignee
+        id: check_conditions
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const hasDataLabel = issue.labels.some(label => label.name === 'data queue');
+            const hasAssignee = issue.assignees.length > 0;
+            return hasDataLabel && hasAssignee;
+
+      - name: Add Issue to Project
+        if: steps.check_conditions.outputs.result == 'true'
+        id: add_to_project
+        uses: actions/add-to-project@v0.3.0
+        with:
+          project-url: https://github.com/users/ben-domingue/projects/1
+          github-token: ${{ secrets.PROJECTS_TEST }}
+
+      - name: Update Project Item Status to "In Progress"
+        if: steps.check_conditions.outputs.result == 'true'
+        uses: nipe0324/update-project-v2-item-field@v2.0.1
+        with:
+          project-url: https://github.com/users/ben-domingue/projects/1
+          github-token: ${{ secrets.PROJECTS_TEST }}
+          field-name: Status
+          field-value: In Progress
