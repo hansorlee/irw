@@ -13,7 +13,7 @@ library(tidyverse)
 data("diagnoses")
 x = diagnoses |> tibble()
 x.raw = x
-x = x |> 
+x = x |>
   mutate(across(everything(),as.numeric)) |>
   mutate(id = 1:nrow(x)) |>
   pivot_longer(cols = -id,
@@ -25,8 +25,8 @@ x.raw = x.raw |>
                names_to = "rater",
                values_to = "resp_raw")
 
-df = x |> left_join(x.raw, by = c("id","rater")) |> 
-  mutate(item = "diagnosis") |> 
+df = x |> left_join(x.raw, by = c("id","rater")) |>
+  mutate(item = "diagnosis") |>
   select(id,item,rater,resp,resp_raw)
 
 save(df,file="diagnoses_irr.Rdata")
@@ -40,7 +40,8 @@ save(df,file="diagnoses_irr.Rdata")
 data(vision)
 x = vision |> tibble()
 x.raw = x
-x = x |> 
+
+x = x |>
   mutate(across(everything(),as.numeric)) |>
   mutate(id = 1:nrow(x)) |>
   pivot_longer(cols = -id,
