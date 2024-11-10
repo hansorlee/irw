@@ -1,4 +1,5 @@
 *.gz
 *.tar.gz
 .Rproj.user
+*.Rproj
 *.DS_Store
