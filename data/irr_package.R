@@ -40,6 +40,7 @@ save(df,file="diagnoses_irr.Rdata")
 data(vision)
 x = vision |> tibble()
 x.raw = x
+
 x = x |>
   mutate(across(everything(),as.numeric)) |>
   mutate(id = 1:nrow(x)) |>
